@@ -68,6 +68,122 @@ MicroSeeds/
 
 Each layer is modular, testable, and ready for district‑scale deployment.
 
+## 🌐 Architecture Diagram
+
+```mermaid
+flowchart TD
+
+    %% STYLE
+    classDef layer fill:#f5f5f5,stroke:#333,stroke-width:1px,border-radius:6px;
+    classDef comp fill:#ffffff,stroke:#777,stroke-width:1px,border-radius:4px;
+
+    %% LAYERS
+    subgraph INGESTION["1. Ingestion Layer"]
+        direction TB
+        A1["Pumping Adapter"]:::comp
+        A2["Salinity Adapter"]:::comp
+        A3["Energy Adapter"]:::comp
+        A4["Schemas"]:::comp
+    end
+    class INGESTION layer;
+
+    subgraph RELIABILITY["2. Data Reliability Layer"]
+        direction TB
+        B1["Structural Cleaner"]:::comp
+        B2["Drift Detector"]:::comp
+        B3["Reliability Score"]:::comp
+    end
+    class RELIABILITY layer;
+
+    subgraph INTELLIGENCE["3. Intelligence Layer"]
+        direction TB
+        C1["Stability Model"]:::comp
+        C2["Energy Model"]:::comp
+        C3["Salinity Model"]:::comp
+        C4["Integrated Trigger"]:::comp
+    end
+    class INTELLIGENCE layer;
+
+    subgraph MICROSEEDS["4. MicroSeed Generation Layer"]
+        direction TB
+        D1["MicroSeed Schema"]:::comp
+        D2["MicroSeed Generator"]:::comp
+        D3["Explanation Builder"]:::comp
+    end
+    class MICROSEEDS layer;
+
+    subgraph DELIVERY["5. Delivery Layer"]
+        direction TB
+        E1["SMS Adapter"]:::comp
+        E2["Email Reports"]:::comp
+        E3["Governance Reports"]:::comp
+    end
+    class DELIVERY layer;
+
+    subgraph FEEDBACK["6. Feedback Layer"]
+        direction TB
+        F1["Compliance Detector"]:::comp
+        F2["Loop Logger"]:::comp
+        F3["Model Updates"]:::comp
+    end
+    class FEEDBACK layer;
+
+    subgraph ORCHESTRATION["7. Orchestration Layer"]
+        direction TB
+        G1["Scheduler"]:::comp
+        G2["Workflow Engine"]:::comp
+        G3["main.py"]:::comp
+    end
+    class ORCHESTRATION layer;
+
+    %% FLOWS
+    A1 --> B1
+    A2 --> B1
+    A3 --> B1
+
+    B1 --> B2
+    B2 --> B3
+    B3 --> C1
+
+    C1 --> C4
+    C2 --> C4
+    C3 --> C4
+
+    C4 --> D2
+    D2 --> D1
+    D2 --> D3
+
+    D2 --> E1
+    D2 --> E2
+    D2 --> E3
+
+    E1 --> F1
+    E2 --> F1
+    E3 --> F1
+
+    F1 --> F2
+    F2 --> F3
+    F3 --> C1
+
+    G1 --> G2
+    G2 --> G3
+    G3 --> A1
+```
+
+### ⭐ What This Diagram Shows
+
+1. **The full data path** — Raw → cleaned → reliable → modeled → triggered → MicroSeed → delivered → feedback → learning.
+
+2. **The intelligence loop** — The system is not linear — it's a closed loop:
+   - Feedback updates the model
+   - The model improves MicroSeeds
+   - MicroSeeds improve stability
+   - Stability improves district outcomes
+
+3. **The composable architecture** — Each layer is independent and testable.
+
+4. **The operational heartbeat** — The orchestration layer drives the entire system.
+
 ---
 
 # 🏗️ MVP Status
