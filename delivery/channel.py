@@ -1,2 +1,6 @@
 def deliver(action):
-    print(f"[SMS] {action['message']}")
+    message = (
+        f"Irrigate {action.block} at {action.window} ({action.mm} mm). "
+        f"{action.explanation}"
+    )
+    print(f"[DELIVERY] {message}")

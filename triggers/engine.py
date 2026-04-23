@@ -1,2 +1,4 @@
 def should_trigger(decision):
-    return decision["high_energy"]
+    fired = decision["high_energy"]
+    print(f"[TRIGGER] fired={fired}")
+    return fired
