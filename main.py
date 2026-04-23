@@ -1,23 +1,32 @@
-from inputs.adapter import get_input
-from processing.core_logic import compute_decision
-from triggers.engine import should_trigger
-from actions.generator import build_action
-from delivery.channel import deliver
-from feedback.collector import record_feedback
-
+from ingestion.pumping_adapter import get_pumping_log
+from reliability.cleaner import clean_data
+from intelligence.integrated_trigger import should_trigger
+from intelligence.stability_model import compute_decision
+from microseeds.generator import generate_microseed
+from delivery.sms_adapter import deliver_sms
+from feedback.loop_logger import log_feedback
 
 def run_once():
-    data = get_input()
-    decision = compute_decision(data)
+    print("\n=== MicroSeeds Intelligence Engine (MVP) ===")
+
+    raw = get_pumping_log()
+    print("[INPUT]", raw)
+
+    cleaned = clean_data(raw)
+    print("[CLEANED]", cleaned)
+
+    decision = compute_decision(cleaned)
+    print("[DECISION]", decision)
 
     if not should_trigger(decision):
-        print("No MicroSeed triggered.")
+        print("[TRIGGER] No MicroSeed fired.")
         return
 
-    action = build_action(decision)
-    deliver(action)
-    record_feedback(action)
+    microseed = generate_microseed(decision)
+    print("[MICROSEED]", microseed)
 
+    deliver_sms(microseed)
+    log_feedback(microseed, "simulated_ok")
 
 if __name__ == "__main__":
     run_once()
